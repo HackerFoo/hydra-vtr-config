@@ -1,0 +1,15 @@
+diff --git a/src/hydra-eval-jobs/hydra-eval-jobs.cc b/src/hydra-eval-jobs/hydra-eval-jobs.cc
+index f3367e11..8ec8a993 100644
+--- a/src/hydra-eval-jobs/hydra-eval-jobs.cc
++++ b/src/hydra-eval-jobs/hydra-eval-jobs.cc
+@@ -171,8 +171,8 @@ static void worker(
+                 job["homepage"] = drv->queryMetaString("homepage");
+                 job["maintainers"] = queryMetaStrings(state, *drv, "maintainers", "email");
+                 job["schedulingPriority"] = drv->queryMetaInt("schedulingPriority", 100);
+-                job["timeout"] = drv->queryMetaInt("timeout", 36000);
+-                job["maxSilent"] = drv->queryMetaInt("maxSilent", 7200);
++                job["timeout"] = drv->queryMetaInt("timeout", 0);
++                job["maxSilent"] = drv->queryMetaInt("maxSilent", 0);
+                 job["isChannel"] = drv->queryMetaBool("isHydraChannel", false);
+ 
+                 /* If this is an aggregate, then get its constituents. */

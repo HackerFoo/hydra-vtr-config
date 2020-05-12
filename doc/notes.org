@@ -1,0 +1,31 @@
+* SSH
+Use `ssh-keygen` to generate a key for root, then add id-*.pub to /root/.ssh/authorized_keys for each builder (using `gcloud compute ssh root@builder-$i`)
+* NixOS
+- using 20.03 for hydra
+#+BEGIN_SRC shell
+sudo nix-channel --add https://nixos.org/channels/nixos-20.03 nixos
+sudo nix-channel --update
+sudo nix-rebuild --switch --upgrade
+#+END_SRC
+- just using the 18.09 image for builders
+* Cache Key
+#+BEGIN_SRC shell
+cd /etc/nixos
+nix-store --generate-cache-key <hostname> cache-key-priv.pem cache-key-pub.pem 
+#+END_SRC
+* Creating instances quickly
+Using the cloud console, navigate to the last instance and select "Create Similar"
+* Adding hydra.vtr.tools as a substituter
+Add this to nix.conf:
+#+BEGIN_EXAMPLE
+trusted-binary-caches = https://hydra.vtr.tools
+binary-cache-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= hydra.vtr.tools:FieVBfKT8fTqYBN2BkKQEeNjG3tPIQq2MUR1uTzaTuk=
+#+END_EXAMPLE
+And use:
+#+BEGIN_SRC shell
+nix-channel --add https://hydra.vtr.tools/project/${PROJECT_NAME}/channel/latest ${PROJECT_NAME}
+nix-channel --update
+nix-build "<${PROJECT_NAME}>" -A ${JOB_NAME} --option binary-cache https://hydra.vtr.tools
+#+END_SRC
+This will fetch the job and all of its dependencies as if you had run it locally.
+

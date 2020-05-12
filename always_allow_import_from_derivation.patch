@@ -1,0 +1,13 @@
+diff --git a/src/script/hydra-eval-jobset b/src/script/hydra-eval-jobset
+index ea336bfc..b995a845 100755
+--- a/src/script/hydra-eval-jobset
++++ b/src/script/hydra-eval-jobset
+@@ -348,7 +348,7 @@ sub evalJobs {
+                 inputsToArgs($inputInfo));
+     }
+
+-    push @cmd, "--no-allow-import-from-derivation" if $config->{allow_import_from_derivation} // "true" ne "true";
++    # push @cmd, "--no-allow-import-from-derivation" if $config->{allow_import_from_derivation} // "true" ne "true";
+
+     if (defined $ENV{'HYDRA_DEBUG'}) {
+         sub escape {
